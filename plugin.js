@@ -1,4 +1,5 @@
 const Hapi = require('hapi');
+const _ = require('lodash');
 
 const  server = new Hapi.Server();
 server.connection({
@@ -63,5 +64,7 @@ api.route({
 server.start(function (err) {
     if(err)
         throw  err;
-    console.log("server running ");
+    _.forEach(server.connections, function(connection) {
+        console.log('Server started at: ' + connection.info.uri);
+    });
 });

@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 const Hapi = require('hapi');
 const Good = require('good');
@@ -46,12 +46,12 @@ server.register(require('inert'), function(err){ // inert do live reloading so w
     }
     server.route({ // this route requires inert so it is placed within the call back of the package
         method: 'GET',
-        path: '/hello',
+        path: '/css/{files*}',
         // handler: function (request, reply) { // this also works fine
         //     reply.file('./public/hello.html');
         // }
 
-        // handler: { // this works
+        // handler: { // this works because of relativeTo field in server.connection
         //     file: 'hello.html'
         // }
         // handler: { // this works fantastic.
@@ -62,10 +62,10 @@ server.register(require('inert'), function(err){ // inert do live reloading so w
         //         lookupCompressed: true // allow looking for script.js.gz if the request allows it
         //     }
         // }
-        handler: {
+        handler:{
             directory: {
-                path: 'hello    ',
-                listing: true
+                path: './dir'  // It doesnt need to write public here coz in server.connection we have specified default directory as public
+                // listing: true
             }
         }
     });

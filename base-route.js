@@ -3,7 +3,7 @@ var baseRoutes = {
         // add “hello world” route
         server.route({
             method: 'GET',
-            path: '/',
+            path: '/route1',
             handler: function (request, reply) {
                 reply('Hello Future Studio!')
             }
@@ -13,8 +13,8 @@ var baseRoutes = {
 };
 
 baseRoutes.register.attributes = {
-    name: 'base-routes',
-    version: '1.0.0'
+    name: 'base-routesdafdsafasdf',
+    // version: '1.0.0'
 };
 
 module.exports = baseRoutes;
