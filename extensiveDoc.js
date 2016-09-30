@@ -7,7 +7,7 @@ podiumObject.registerEvent( [
     {
         name: 'event1',
         channels: ['ch1','ch2','ch3','ch4'],//done
-        clone: true,
+        // clone: true, //done
         // spread: true,//done if true we need to take values in different variables in on()
         tags: true,// works with filter
         shared: true//done
@@ -22,35 +22,31 @@ podiumObject.registerEvent( [
     //     shared: true
     // }
 ]);
-
-const listener1 = function(data) {
+const listener1 =(data,next) => {
     console.log('listener1 called');
     console.log(data);
-    data =55;
-    // data.forEach(function (element,index) {
-    //     console.log('a[' + index + '] = ' + element);
-    // });
-}
-
+    // setTimeout(function() {console.log("done running")},1000); // with block = true, as soon as this timeout finishes the callback will be called
+    next()
+};
 
 const listener2 = function(data) {
     console.log('listener2 called');
     console.log(data);
-    data =55;
-    // data.forEach(function (element,index) {
-    //     console.log('a[' + index + '] = ' + element);
-    // });
-}
+    data [1] = 55;
+    console.log(data);
+};
 
 podiumObject.on({
     name: 'event1',// done
-    block: true,
-    channels: ['ch1'],
-    clone:true,
-    count: 2,//done
-    filter: ['ch1'], // done
-    spread: true,// done
-    tags: true
+    // block: true, // if true then listener will receive a callback function and it has to call that
+    // to mark the completion of the listener, if value then after this value(milliseconds) the normal callback of emit will be called
+    // next() error not working now
+    channels: ['ch1'], // done
+    // clone:true,   //done... this defaults to clone of registerEvent
+    // count: 2,//done
+    // filter: ['ch1'] // done
+    // spread: true,// done
+    // tags: true
 },listener1);
 
 podiumObject.on({
@@ -68,8 +64,8 @@ var arr= [0,1,2,3,4,4,5];
 
 podiumObject.emit({
     name: 'event1',
-    channel: 'ch2',
-    tags: []
+    channel: 'ch3'
+    // tags: []
 },arr,function(err){
     if(err){
         console.log("in error");
@@ -78,6 +74,33 @@ podiumObject.emit({
         console.log("callback returned true---:O");
     }
 });
+console.log(arr);
+
+// const emitter = new Podium(['a', 'b']);
+//
+// const updates = [];
+//
+// const aHandler = (data, next) => {
+//
+//     updates.push({ a: data, id: 1 });
+//     next()
+// };
+//
+// emitter.on({ name: 'a', block: true }, aHandler);
+//
+// const bHandler = (data) => {
+//
+//     updates.push({ b: data, id: 1 });
+// };
+//
+// emitter.on('b', bHandler);
+//
+// emitter.emit('a', 1, () => updates.push('a done'));
+// emitter.emit('b', 1, () => {
+//
+//     console.log(updates);
+// });
+
 
 
 // // filter-tag example
